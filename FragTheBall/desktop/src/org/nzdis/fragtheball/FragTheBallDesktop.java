@@ -43,12 +43,12 @@ public class FragTheBallDesktop {
 		// Setup FragMe
 		ControlCenter.setUpConnections("testGroupNathan", String.format("testDesktop%d", rng.nextInt(1000)));
 		
-		try {
+		/*try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		// !!! Need callback when setup complete
 		
 		// Setup GUI
