@@ -1,6 +1,7 @@
 package org.nzdis.fragtheball;
 
 import org.nzdis.fragme.ControlCenter;
+import org.nzdis.fragtheball.Player;
 
 import java.awt.Color;
 import java.awt.Dimension;
