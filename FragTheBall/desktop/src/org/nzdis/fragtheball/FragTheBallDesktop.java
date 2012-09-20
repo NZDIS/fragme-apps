@@ -3,6 +3,7 @@ package org.nzdis.fragtheball;
 import java.util.Random;
 
 import org.nzdis.fragme.ControlCenter;
+import org.nzdis.fragme.util.NetworkUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,16 +41,13 @@ public class FragTheBallDesktop {
 	public FragTheBallDesktop() {
 		System.out.println("Starting");
 
-		// Setup FragMe
-		ControlCenter.setUpConnections("testGroupNathan", String.format("testDesktop%d", rng.nextInt(1000)));
+		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
+		System.out.println("Using address: " + address);
 		
-		/*try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		// !!! Need callback when setup complete
+		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
+		
+		// Setup FragMe
+		ControlCenter.setUpConnections("testGroupNathan", peerName, address);
 		
 		// Setup GUI
 		buildTheGUI();
