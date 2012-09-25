@@ -67,9 +67,9 @@ public class Player {
 	
 	public void setAcceleration(float aX, float aY, float aZ) {
 		// Make sure you remove gravity from your variables before calling this method
-		this.accelerationX = Math.max(Math.min(aX, accelerationMax), -accelerationMax);
-		this.accelerationY = Math.max(Math.min(aY, accelerationMax), -accelerationMax);
-		this.accelerationZ = Math.max(Math.min(aZ, accelerationMax), -accelerationMax);
+		accelerationX = Math.max(Math.min(aX, accelerationMax), -accelerationMax);
+		accelerationY = Math.max(Math.min(aY, accelerationMax), -accelerationMax);
+		accelerationZ = Math.max(Math.min(aZ, accelerationMax), -accelerationMax);
 	}
 	
 	public void randomiseAcceleration() {
