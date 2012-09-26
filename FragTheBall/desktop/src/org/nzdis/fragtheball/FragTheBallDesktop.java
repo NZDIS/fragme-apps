@@ -17,12 +17,20 @@ import javax.swing.JPanel;
 
 public class FragTheBallDesktop {
 
+	// Parameters
+	private boolean guiIsEnabled = true;
+	private int updatesPerSecond = 30;
+	private int secondsPerRandomise = 20;
+	
 	// GUI
 	private JFrame frame = new JFrame();
 	private JPanel actionPanel = new JPanel();
 	private JButton randomiseButton = new JButton("Randomise");
 	private JButton quitButton = new JButton("Quit");
 	
+	// The Player
+	public Player player;
+
 	// Stuff
 	private boolean isRunning = true;
 	Random rng = new Random();
@@ -49,15 +57,46 @@ public class FragTheBallDesktop {
 		// Setup FragMe
 		ControlCenter.setUpConnections("testGroupNathan", peerName, address);
 		
-		// Setup GUI
-		buildTheGUI();
+		// Initialize this player
+		player = new Player();
+		player.randomiseAcceleration();
+		
+		if (guiIsEnabled) {
+			// Setup GUI
+			buildTheGUI();
 
-		while(isRunning) {
-			frame.repaint();
-        	try {
-				Thread.sleep(1000/30);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			while(isRunning) {
+			    // Update myself
+				player.update();
+
+				// Tell java that we want the screen repainted (it will be done at some point in the near future)
+				frame.repaint();
+				
+	        	try {
+					Thread.sleep(1000/updatesPerSecond);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			// Console only - automate randomisation every few seconds
+			int c = secondsPerRandomise*updatesPerSecond;
+			
+			while(isRunning) {
+				c--;
+			    // Update myself
+				player.update();
+
+				if (c < 0) {
+					player.randomiseAcceleration();
+					c = secondsPerRandomise*updatesPerSecond;
+				}
+				
+	        	try {
+					Thread.sleep(1000/updatesPerSecond);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -80,14 +119,16 @@ public class FragTheBallDesktop {
 	    frame.setVisible(true);
 	    actionPanel.setBackground(Color.CYAN);
 	    frame.setBackground(Color.RED);
-	    playerRenderer = new PlayerRenderer();
+	    playerRenderer = new PlayerRenderer(player);
 	    frame.add(playerRenderer);
 	    frame.validate();
 	}
 	
+	
+	
 	class RandomiseButtonClickHandler implements ActionListener {
 	    public void actionPerformed(ActionEvent e) { 
-	    	playerRenderer.player.randomiseAcceleration();
+	    	player.randomiseAcceleration();
 	    }
 	}
 

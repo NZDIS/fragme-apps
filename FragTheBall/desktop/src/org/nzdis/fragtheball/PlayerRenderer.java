@@ -16,7 +16,6 @@ public class PlayerRenderer extends JPanel {
 
 	private static final long serialVersionUID = 4305993006244918732L;
 	
-	public Player player;
 	public boolean isRunning = true;
 	
 	private float screenWidth = 500.0f;
@@ -27,11 +26,10 @@ public class PlayerRenderer extends JPanel {
 	private static int sphereSize = 20;
 	private static float sphereSizeHalf = (float)sphereSize * 0.5f;
 	
+	private FragMePlayer myFmPlayer;
 	
-	public PlayerRenderer() {
-		// Initialize this player
-		player = new Player();
-		player.randomiseAcceleration();
+	public PlayerRenderer(Player player) {
+		myFmPlayer = player.fmPlayer;
 		this.setBackground(Color.YELLOW);
 	}
 	
@@ -42,14 +40,11 @@ public class PlayerRenderer extends JPanel {
 		
 	    super.paintComponent(g);
 
-	    // Update myself
-		player.update();
-		
 	    // Render all balls
 		Vector<FragMePlayer> fragmePlayers = (Vector<FragMePlayer>)ControlCenter.getAllObjects(FragMePlayer.class).clone();
 		
 		for (FragMePlayer fmPlayer : fragmePlayers) {
-		    if (fmPlayer == player.fmPlayer)
+		    if (fmPlayer == myFmPlayer)
 		    	g.setColor(Color.BLUE);
 		    else 
 		    	g.setColor(Color.RED);
