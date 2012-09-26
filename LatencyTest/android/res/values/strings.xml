@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">Fmtest2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_fmtest2_main">Fmtest2MainActivity</string>
+    <string name="bottonString">Submit</string>
+    <string name="viewString">Change number</string>
+    <string name="infoview">test record</string>
+    <string name="textView3">Change view</string>
+
+</resources>
