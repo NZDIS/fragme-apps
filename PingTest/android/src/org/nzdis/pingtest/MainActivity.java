@@ -5,9 +5,11 @@ import java.util.Random;
 import org.nzdis.fragme.ControlCenter;
 import org.nzdis.fragme.util.NetworkUtils;
 
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
 
-
-public class PingTestDesktop {
+public class MainActivity extends Activity {
 
 	public FragMePingPacket pingPacket;
 	
@@ -16,17 +18,14 @@ public class PingTestDesktop {
 	Random rng = new Random();
 
 	
-	
-	// Startup
-	public static void main(String args[]){
-		new PingTestDesktop();
-	}
-	
-	
-	
-	public PingTestDesktop() {
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
 		System.out.println("Starting");
 
+		
 		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
 		System.out.println("Using address: " + address);
 		
@@ -68,11 +67,11 @@ public class PingTestDesktop {
         	
         	long duration = System.currentTimeMillis() - lastTime;
         	int difference = pingPacket.getCounter() - lastCounter;
-        	if (difference > 0) {
+        	//if (difference > 0) {
 	    		long ping = 500 * duration / difference;
 				System.out.println(peerName + " Current count: " + pingPacket.getCounter() + 
 						" Ping: " + ping);
-        	}
+        	//}
         	
 			lastCounter = pingPacket.getCounter();
 			lastTime = System.currentTimeMillis();
@@ -81,7 +80,11 @@ public class PingTestDesktop {
 		ControlCenter.closeUpConnections();
 		System.out.println("Finished");
 		System.exit(0);
-	}
-	
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
 }

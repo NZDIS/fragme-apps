@@ -11,6 +11,8 @@ public class FragMePingPacket extends FMeObject {
 
 	
 	public int counter = 0;
+	public boolean hasChanged = false;
+	public boolean isNew = true;
 	
 	public int getCounter() {
 		return counter;
@@ -29,20 +31,27 @@ public class FragMePingPacket extends FMeObject {
 
 	@Override
 	public void deserialize(FMeObject serObject) {
-		this.counter = ((FragMePingPacket) serObject).getCounter();
+		if (isNew) {
+			isNew = false;
+			hasChanged = true;
+		} else {
+			hasChanged = false;
+		}
+		if (((FragMePingPacket) serObject).getCounter() != this.counter) {
+			this.counter = ((FragMePingPacket) serObject).getCounter();
+			hasChanged = true;
+		}
 	}
 
 	@Override
 	public void changedObject() {
-		if (counter == PingTestDesktop.previousCounter + 1) {
+		if (!hasChanged) {
+			return;
+		}
+		if (counter == PingPacketHistory.previousCounter + 1) {
 			counter = counter + 1;
-			PingTestDesktop.previousCounter = counter;
+			PingPacketHistory.previousCounter = counter;
 			change();
-		} else {
-			//System.err.println("Previous: " + PingTestDesktop.previousCounter + " Current: " + counter);
-			//counter = counter + 1;
-			//PingTestDesktop.previousCounter = counter;
-			//change();
 		}
 	}
 
