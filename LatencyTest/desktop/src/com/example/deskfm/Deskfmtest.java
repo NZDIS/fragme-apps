@@ -11,6 +11,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import org.nzdis.fragme.ControlCenter;
+import org.nzdis.fragme.helpers.StartupWaitForObjects;
 
 
 public class Deskfmtest extends Frame implements Observer {
@@ -29,9 +30,11 @@ public class Deskfmtest extends Frame implements Observer {
 		initialize();
 		System.setProperty("JGroups.bind_addr", "IPV4");
 		String username=System.getProperty("user.name");
-		ControlCenter.setUpConnections("Fragme Desktop test", username);
-		Vector shareObs = ControlCenter.getAllObjects();
+		ControlCenter.setUpConnectionsWithHelper("Fragme Desktop test", username, new StartupWaitForObjects(1));
 
+		Vector shareObs = ControlCenter.getAllObjects();
+		
+		System.err.println("Peers: " + ControlCenter.getNoOfPeers() + " Objects: " + shareObs.size());
 		if (shareObs.size() == 0) {
 			this.tob = (TestOb) ControlCenter.createNewObject(TestOb.class);
 			System.out.println("Create a new TestOb");
