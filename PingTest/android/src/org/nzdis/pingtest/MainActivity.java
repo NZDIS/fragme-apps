@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	pingTest.isRunning = false;
+            	finish();
             }
         });
 	}
@@ -50,6 +51,12 @@ public class MainActivity extends Activity {
 		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
 			System.out.println(ste.toString());
 		}
+    }
+    
+    
+    @Override
+    protected void onDestroy() {
+    	pingTest.isRunning = false;
     }
 };
 

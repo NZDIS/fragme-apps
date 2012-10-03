@@ -91,7 +91,6 @@ public class PingTest extends Thread {
 		}
 	
 		ControlCenter.closeUpConnections();
-		System.exit(0);
 	}
 	
 }

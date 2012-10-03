@@ -55,7 +55,7 @@ public class FragTheBallDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 		
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroupNathan", peerName, address);
+		ControlCenter.setUpConnections("testGroup3", peerName, address);
 		
 		// Initialize this player
 		player = new Player();

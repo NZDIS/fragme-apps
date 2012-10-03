@@ -33,7 +33,7 @@ public class PingTestDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 	
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroupNathan", peerName, address);
+		ControlCenter.setUpConnections("testGroup7", peerName, address);
 		
 		if (ControlCenter.getNoOfPeers() == 0) {
 			// We are the first to launch, so create the FragMePingPacket
