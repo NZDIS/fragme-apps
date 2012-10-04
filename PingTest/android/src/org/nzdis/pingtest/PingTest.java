@@ -33,7 +33,6 @@ public class PingTest extends Thread {
 	}
 	
 	public void run() {
-
 		println("Starting...");
 		
 		Trace.trace = false;
@@ -76,12 +75,12 @@ public class PingTest extends Thread {
 				e.printStackTrace();
 			}
 	    	
-	    	long duration = System.currentTimeMillis() - lastTime;
-	    	int difference = pingPacket.getCounter() - lastCounter;
-	    	if (difference > 0) {
-	    		long ping = duration * 2 / difference;
+	    	long durationMicros = (System.currentTimeMillis() - lastTime) * 1000;
+	    	int numPings = pingPacket.getCounter() - lastCounter;
+	    	if (numPings > 0) {
+	    		long averagePingMillis = durationMicros / numPings;
 	    		println(peerName + "Current count: " + pingPacket.getCounter() + 
-						" Ping (round trip): " + ping);
+						" Ping microseconds: " + averagePingMillis);
 	    	} else {
 	    		println("Current count: " + pingPacket.getCounter() + " No packets sent");
 	    	}
@@ -91,6 +90,7 @@ public class PingTest extends Thread {
 		}
 	
 		ControlCenter.closeUpConnections();
+		System.exit(0);
 	}
 	
 }
