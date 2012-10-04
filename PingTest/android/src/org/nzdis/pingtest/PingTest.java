@@ -48,7 +48,7 @@ public class PingTest extends Thread {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 	
 		// Setup FragMe
-		ControlCenter.setUpConnectionsWithHelper("testGroupNathan", peerName, address, new StartupWaitForObjects(1));
+		ControlCenter.setUpConnectionsWithHelper("testGroupPingTest", peerName, address, new StartupWaitForObjects(1));
 		
 		if (ControlCenter.getNoOfPeers() == 0) {
 			// We are the first to launch, so create the FragMePingPacket
