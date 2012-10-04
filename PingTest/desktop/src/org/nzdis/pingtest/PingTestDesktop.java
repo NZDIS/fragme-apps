@@ -33,7 +33,7 @@ public class PingTestDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 	
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroup7", peerName, address);
+		ControlCenter.setUpConnections("testGroup8", peerName, address);
 		
 		if (ControlCenter.getNoOfPeers() == 0) {
 			// We are the first to launch, so create the FragMePingPacket
@@ -66,12 +66,12 @@ public class PingTestDesktop {
 				e.printStackTrace();
 			}
         	
-        	long duration = System.currentTimeMillis() - lastTime;
-        	int difference = pingPacket.getCounter() - lastCounter;
-        	if (difference > 0) {
-	    		long ping = 500 * duration / difference;
+        	long durationMicros = (System.currentTimeMillis() - lastTime) * 1000;
+        	int numPings = pingPacket.getCounter() - lastCounter;
+        	if (numPings > 0) {
+	    		long averagePingMicros = durationMicros / numPings;
 				System.out.println(peerName + " Current count: " + pingPacket.getCounter() + 
-						" Ping: " + ping);
+						" Ping microseconds: " + averagePingMicros);
         	}
         	
 			lastCounter = pingPacket.getCounter();
