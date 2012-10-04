@@ -3,6 +3,7 @@ package org.nzdis.pingtest;
 import java.util.Random;
 
 import org.nzdis.fragme.ControlCenter;
+import org.nzdis.fragme.helpers.StartupWaitForObjects;
 import org.nzdis.fragme.util.NetworkUtils;
 
 
@@ -33,7 +34,10 @@ public class PingTestDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 	
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroup8", peerName, address);
+		//ControlCenter.setUpConnections("testGroup8", peerName, address);
+
+		ControlCenter.setUpConnectionsWithHelper("testGroupPingTest", peerName, address, new StartupWaitForObjects(1));
+
 		
 		if (ControlCenter.getNoOfPeers() == 0) {
 			// We are the first to launch, so create the FragMePingPacket

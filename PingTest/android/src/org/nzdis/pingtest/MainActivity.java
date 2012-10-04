@@ -36,7 +36,6 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	pingTest.isRunning = false;
-            	finish();
             }
         });
 	}
@@ -56,7 +55,8 @@ public class MainActivity extends Activity {
     
     @Override
     protected void onDestroy() {
-    	pingTest.isRunning = false;
+    	if (pingTest != null)
+    		pingTest.isRunning = false;
     }
 };
 
