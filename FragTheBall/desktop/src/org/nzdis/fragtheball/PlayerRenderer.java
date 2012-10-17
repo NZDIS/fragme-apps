@@ -44,7 +44,7 @@ public class PlayerRenderer extends JPanel {
 		Vector<FragMePlayer> fragmePlayers = (Vector<FragMePlayer>)ControlCenter.getAllObjects(FragMePlayer.class).clone();
 		
 		for (FragMePlayer fmPlayer : fragmePlayers) {
-		    if (fmPlayer == myFmPlayer)
+		    if (fmPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress()))
 		    	g.setColor(Color.BLUE);
 		    else 
 		    	g.setColor(Color.RED);
