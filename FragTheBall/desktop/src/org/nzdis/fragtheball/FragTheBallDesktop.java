@@ -85,6 +85,20 @@ public class FragTheBallDesktop {
 			while(isRunning) {
 				c--;
 			    // Update myself
+				if (ControlCenter.getNoOfPeers() > 0) {
+					if (player.fmPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress())) {
+						System.out.println("I own my object");
+						for (Object otherObject : ControlCenter.getAllObjects(FragMePlayer.class)) {
+							FragMePlayer otherPlayer = (FragMePlayer)otherObject;
+							if (!otherPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress())) {
+								System.out.println("I found someone to give it to");
+								//player.fmPlayer.setOwnerAddr(otherPlayer.getOwnerAddr());
+								player.fmPlayer.delegateOwnership(otherPlayer.getOwnerAddr());
+								break;
+							}
+						}
+					}
+				}
 				player.update();
 
 				if (c < 0) {
