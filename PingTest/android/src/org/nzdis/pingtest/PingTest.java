@@ -1,5 +1,7 @@
 package org.nzdis.pingtest;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import org.jgroups.log.Trace;
@@ -10,7 +12,7 @@ import org.nzdis.fragme.util.NetworkUtils;
 import android.os.Handler;
 import android.os.Message;
 
-public class PingTest extends Thread {
+public class PingTest extends Thread implements Observer{
 
 	public FragMePingPacket pingPacket;
 	
@@ -55,42 +57,69 @@ public class PingTest extends Thread {
 			new FragMePingPacket();
 			pingPacket = (FragMePingPacket)ControlCenter.createNewObject(FragMePingPacket.class);
 			PingPacketHistory.previousCounter = pingPacket.getCounter();
+			pingPacket.addObserver(this);
+			startTimer();
 		} else {
         	// We are not the first, so find the ping packet that has already been created
 			println("Using existing ping packet");
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
 			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
-			pingPacket.changedObject();
+					
+			pingPacket.addObserver(this);
+			this.update(pingPacket, null);
+			startTimer();
 		}
 		
-		println("Finished startup, running");
+		//println("Finished startup, running");
 
-		
+	}
+	
+	public void startTimer(){
 		int lastCounter = pingPacket.getCounter();
-		long lastTime = System.currentTimeMillis();
-		while(isRunning) {
+		long lastTime = System.nanoTime();
+		
+		int runs=0;
+		while(runs<55) {
 	    	try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 	    	
-	    	long durationMicros = (System.currentTimeMillis() - lastTime) * 1000;
+	    	long durationNano = System.nanoTime() - lastTime;
+	    	long durationms=durationNano/1000000;
 	    	int numPings = pingPacket.getCounter() - lastCounter;
 	    	if (numPings > 0) {
-	    		long averagePingMillis = durationMicros / numPings;
-	    		println(peerName + "Current count: " + pingPacket.getCounter() + 
-						" Ping microseconds: " + averagePingMillis);
+	    		long averagePingMicros = durationNano / numPings/1000;
+	    		//println(peerName + "Current count: " + pingPacket.getCounter() + 
+				//		" Ping microseconds: " + averagePingMillis);
+	    		println(runs + ", " +numPings+", " +durationms+", " + averagePingMicros);
 	    	} else {
-	    		println("Current count: " + pingPacket.getCounter() + " No packets sent");
+	    		//println("Current count: " + pingPacket.getCounter() + " No packets sent");
+	    		println(runs +" no packet sent");
 	    	}
 	    	
 			lastCounter = pingPacket.getCounter();
-			lastTime = System.currentTimeMillis();
+			lastTime = System.nanoTime();
+			runs++;
 		}
 	
 		ControlCenter.closeUpConnections();
 		System.exit(0);
+	}
+
+	public void update(Observable observable, Object data) {
+		// TODO Auto-generated method stub
+		
+		FragMePingPacket pp =(FragMePingPacket)observable;
+		//println("in update(): "+pp.getCounter());
+		int ct=pp.getCounter();
+		if (ct == PingPacketHistory.previousCounter + 1) {
+			pp.setCounter(ct + 1);
+			PingPacketHistory.previousCounter = ct + 1;
+			pp.change();
+
+		}
 	}
 	
 }

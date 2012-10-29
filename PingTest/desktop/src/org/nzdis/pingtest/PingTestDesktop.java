@@ -1,5 +1,7 @@
 package org.nzdis.pingtest;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import org.nzdis.fragme.ControlCenter;
@@ -8,7 +10,7 @@ import org.nzdis.fragme.util.NetworkUtils;
 
 
 
-public class PingTestDesktop {
+public class PingTestDesktop implements Observer{
 
 	public FragMePingPacket pingPacket;
 	
@@ -28,7 +30,8 @@ public class PingTestDesktop {
 	public PingTestDesktop() {
 		System.out.println("Starting");
 
-		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
+		//String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
+		String address="127.0.0.1";
 		System.out.println("Using address: " + address);
 		
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
@@ -45,6 +48,8 @@ public class PingTestDesktop {
 			new FragMePingPacket();
 			pingPacket = (FragMePingPacket)ControlCenter.createNewObject(FragMePingPacket.class);
 			PingPacketHistory.previousCounter = pingPacket.getCounter();
+			pingPacket.addObserver(this);
+			startTimer();
 		} else {
         	// We are not the first, so find the ping packet that has already been created
 			while(ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).isEmpty()) {
@@ -58,33 +63,67 @@ public class PingTestDesktop {
 			System.out.println("Using existing ping packet");
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
 			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
-			pingPacket.changedObject();
+			//pingPacket.changedObject();
+			pingPacket.addObserver(this);
+			
+			this.update(pingPacket, null);
+			startTimer();
+			
 		}
-		
+	}
+		public void startTimer(){
 		int lastCounter = pingPacket.getCounter();
-		long lastTime = System.currentTimeMillis();
-    	while(isRunning) {
-        	try {
+		//long lastTime = System.currentTimeMillis();
+		Long lastTime =System.nanoTime();
+		
+		int runs=0;
+    		while(runs<10) {
+    		try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
         	
-        	long durationMicros = (System.currentTimeMillis() - lastTime) * 1000;
+        	long durationNano = (System.nanoTime() - lastTime);
+        	long durationms=durationNano/1000000;
         	int numPings = pingPacket.getCounter() - lastCounter;
         	if (numPings > 0) {
-	    		long averagePingMicros = durationMicros / numPings;
-				System.out.println(peerName + " Current count: " + pingPacket.getCounter() + 
-						" Ping microseconds: " + averagePingMicros);
+	    		long averagePingMicros = durationNano / numPings/1000;
+				System.out.println(runs + ", " +numPings+
+						", " +durationms+", " + averagePingMicros);
+        	}else{
+        		//System.out.println(runs +" no packet sent");
         	}
         	
 			lastCounter = pingPacket.getCounter();
-			lastTime = System.currentTimeMillis();
+			lastTime = System.nanoTime();
+			runs++;
 		}
-		
+    		try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		ControlCenter.closeUpConnections();
 		System.out.println("Finished");
 		System.exit(0);
+	}
+	
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		FragMePingPacket fpp=(FragMePingPacket)arg0;
+		
+		int ct=fpp.getCounter();
+		//System.out.println("in update() "+ct);
+		
+		if (ct == PingPacketHistory.previousCounter + 1) {
+			fpp.setCounter(ct+1);
+			PingPacketHistory.previousCounter = ct+1;
+			fpp.change();
+		}
 	}
 	
 

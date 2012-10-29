@@ -5,7 +5,6 @@ import org.nzdis.fragme.factory.FragMeFactory;
 import org.nzdis.fragme.objects.FMeObject;
 
 
-
 public class FragMePingPacket extends FMeObject {
 	private static final long serialVersionUID = -8697491800836330511L;
 
@@ -17,6 +16,10 @@ public class FragMePingPacket extends FMeObject {
 	public int getCounter() {
 		return counter;
 	}
+	
+	public void setCounter(int counter){
+		this.counter=counter;
+	}// added for other class to set value
 	
 	private static class Factory extends FragMeFactory {
 		protected FactoryObject create() {
@@ -41,6 +44,7 @@ public class FragMePingPacket extends FMeObject {
 			this.counter = ((FragMePingPacket) serObject).getCounter();
 			hasChanged = true;
 		}
+		//System.out.println("pingPacket deserialize: "+hasChanged+"  "+this.counter);
 	}
 
 	@Override
@@ -48,11 +52,14 @@ public class FragMePingPacket extends FMeObject {
 		if (!hasChanged) {
 			return;
 		}
-		if (counter == PingPacketHistory.previousCounter + 1) {
+		//System.out.println("pingPacket Received a change notification!");
+		this.setChanged();
+		this.notifyObservers();
+		/*if (counter == PingPacketHistory.previousCounter + 1) {
 			counter = counter + 1;
 			PingPacketHistory.previousCounter = counter;
 			change();
-		}
+		}*/
 	}
 
 	@Override

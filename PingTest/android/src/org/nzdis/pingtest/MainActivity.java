@@ -1,5 +1,6 @@
 package org.nzdis.pingtest;
 
+//import android.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
