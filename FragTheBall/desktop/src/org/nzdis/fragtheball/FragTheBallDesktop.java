@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class FragTheBallDesktop {
 
 	// Parameters
-	private boolean guiIsEnabled = true;
+	private boolean guiIsEnabled;
 	private int updatesPerSecond = 30;
 	private int secondsPerRandomise = 20;
 	
@@ -55,11 +55,17 @@ public class FragTheBallDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 		
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroup3", peerName, address);
+		ControlCenter.setUpConnections("testGroup33", peerName, address);
 		
 		// Initialize this player
 		player = new Player();
 		player.randomiseAcceleration();
+		
+		if (ControlCenter.getNoOfPeers() == 0) {
+			guiIsEnabled = true;
+		} else {
+			guiIsEnabled = false;
+		}
 		
 		if (guiIsEnabled) {
 			// Setup GUI
@@ -85,6 +91,19 @@ public class FragTheBallDesktop {
 			while(isRunning) {
 				c--;
 			    // Update myself
+				if (ControlCenter.getNoOfPeers() > 0) {
+					if (player.fmPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress())) {
+						System.out.println("I own my object");
+						for (Object otherObject : ControlCenter.getAllObjects(FragMePlayer.class)) {
+							FragMePlayer otherPlayer = (FragMePlayer)otherObject;
+							if (!otherPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress())) {
+								System.out.println("I found someone to give it to");
+								player.fmPlayer.delegateOwnership(otherPlayer.getOwnerName());
+								break;
+							}
+						}
+					}
+				}
 				player.update();
 
 				if (c < 0) {

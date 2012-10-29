@@ -1,9 +1,7 @@
 package org.nzdis.fragtheball;
 
 import java.util.Random;
-
 import org.nzdis.fragme.ControlCenter;
-
 
 public class Player {
 	
@@ -141,4 +139,5 @@ public class Player {
 		//System.out.printf("%f %f %f\n", fmplayer.positionX, fmplayer.positionY, fmplayer.positionZ);
 		fmPlayer.change();
 	}
+
 }

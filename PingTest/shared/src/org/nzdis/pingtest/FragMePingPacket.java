@@ -31,6 +31,9 @@ public class FragMePingPacket extends FMeObject {
 		FragMeFactory.addFactory(new Factory(), FragMePingPacket.class);
 	}
 	
+	public FragMePingPacket() {
+		this.register(this);
+	}
 
 	@Override
 	public void deserialize(FMeObject serObject) {
@@ -48,7 +51,7 @@ public class FragMePingPacket extends FMeObject {
 	}
 
 	@Override
-	public void changedObject() {
+	public void changed(FMeObject object) {
 		if (!hasChanged) {
 			return;
 		}
@@ -63,7 +66,11 @@ public class FragMePingPacket extends FMeObject {
 	}
 
 	@Override
-	public void deletedObject() {
+	public void delegatedOwnership(FMeObject object) {
+	}
+
+	@Override
+	public void deleted(FMeObject object) {
 	}
 
 }
