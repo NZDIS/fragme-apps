@@ -54,8 +54,9 @@ public class PingTestDesktop {
 			}
 			System.out.println("Using existing ping packet");
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
-			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
-			pingPacket.changedObject();
+			pingPacket.counter++;
+			PingPacketHistory.previousCounter = pingPacket.counter;
+			pingPacket.change();
 		}
 		
 		int lastCounter = pingPacket.getCounter();

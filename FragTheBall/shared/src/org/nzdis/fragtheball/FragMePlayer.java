@@ -42,14 +42,16 @@ public class FragMePlayer extends FMeObject {
 	}
 
 	@Override
-	public void changedObject() {
+	public void changed(FMeObject object) {
 	}
 
 	@Override
-	public void deletedObject() {
+	public void delegatedOwnership(FMeObject object) {
 	}
-	
 
+	@Override
+	public void deleted(FMeObject object) {
+	}	
 	
 	public float getPositionX() {
 		return this.positionX;
@@ -78,6 +80,5 @@ public class FragMePlayer extends FMeObject {
 	public int getScore() {
 		return this.score;
 	}
-	
 
 }
