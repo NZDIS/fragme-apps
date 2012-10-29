@@ -1,4 +1,4 @@
-package org.nzdis.tictactoeAndroid;
+package org.nzdis.tictactoeDesk;
 
 import org.nzdis.fragme.factory.FactoryObject;
 import org.nzdis.fragme.factory.FragMeFactory;
