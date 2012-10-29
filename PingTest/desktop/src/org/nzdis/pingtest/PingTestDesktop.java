@@ -62,6 +62,7 @@ public class PingTestDesktop implements Observer{
 			}
 			System.out.println("Using existing ping packet");
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
+<<<<<<< HEAD
 			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
 			//pingPacket.changedObject();
 			pingPacket.addObserver(this);
@@ -69,6 +70,11 @@ public class PingTestDesktop implements Observer{
 			this.update(pingPacket, null);
 			startTimer();
 			
+=======
+			pingPacket.counter++;
+			PingPacketHistory.previousCounter = pingPacket.counter;
+			pingPacket.change();
+>>>>>>> 20029c8da4101cfbd0e968e7134e1f4c8e4e6a4f
 		}
 	}
 		public void startTimer(){

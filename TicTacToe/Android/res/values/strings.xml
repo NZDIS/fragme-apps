@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">TicTacToeAndroid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_tttmain">TicTacToeAndroid</string>
+    <string name="player">player</string>
+    <string name="restart">Restart</string>
+    <string name="message">Message</string>
+    
+
+</resources>
