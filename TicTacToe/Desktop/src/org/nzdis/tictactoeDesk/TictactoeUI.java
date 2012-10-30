@@ -46,6 +46,10 @@ public class TictactoeUI extends Frame implements Observer {
 	public TictactoeUI() {
 		//initialize interface
 		initialize();
+		initialConnection();
+	}
+	
+	public void initialConnection(){
 		//set connection address
 		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
 		if (address == null) {
