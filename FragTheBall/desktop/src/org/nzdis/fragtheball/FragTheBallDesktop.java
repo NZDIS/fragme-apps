@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class FragTheBallDesktop {
 
 	// Parameters
-	private boolean guiIsEnabled;
+	private boolean guiIsEnabled = true;
 	private int updatesPerSecond = 30;
 	private int secondsPerRandomise = 20;
 	
@@ -55,17 +55,17 @@ public class FragTheBallDesktop {
 		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
 		
 		// Setup FragMe
-		ControlCenter.setUpConnections("testGroup33", peerName, address);
+		ControlCenter.setUpConnections("FragTheBall", peerName, address);
 		
 		// Initialize this player
 		player = new Player();
 		player.randomiseAcceleration();
 		
-		if (ControlCenter.getNoOfPeers() == 0) {
+		/*if (ControlCenter.getNoOfPeers() == 0) {
 			guiIsEnabled = true;
 		} else {
 			guiIsEnabled = false;
-		}
+		}*/
 		
 		if (guiIsEnabled) {
 			// Setup GUI
@@ -138,7 +138,7 @@ public class FragTheBallDesktop {
 	    frame.setVisible(true);
 	    actionPanel.setBackground(Color.CYAN);
 	    frame.setBackground(Color.RED);
-	    playerRenderer = new PlayerRenderer(player);
+	    playerRenderer = new PlayerRenderer();
 	    frame.add(playerRenderer);
 	    frame.validate();
 	}

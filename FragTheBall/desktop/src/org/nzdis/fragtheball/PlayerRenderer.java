@@ -1,10 +1,8 @@
 package org.nzdis.fragtheball;
 
 import org.nzdis.fragme.ControlCenter;
-import org.nzdis.fragtheball.Player;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Vector;
 
@@ -26,10 +24,7 @@ public class PlayerRenderer extends JPanel {
 	private static int sphereSize = 20;
 	private static float sphereSizeHalf = (float)sphereSize * 0.5f;
 	
-	private FragMePlayer myFmPlayer;
-	
-	public PlayerRenderer(Player player) {
-		myFmPlayer = player.fmPlayer;
+	public PlayerRenderer() {
 		this.setBackground(Color.YELLOW);
 	}
 	

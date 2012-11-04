@@ -17,6 +17,9 @@
 
 
 Sphere::Sphere() : Drawable() {
+	positionX = 0.5f;
+	positionY = 0.5f;
+	positionZ = 0.0f;
 }
 
 Sphere::~Sphere() {
@@ -96,19 +99,20 @@ void Sphere::init(float width, float height)
    userData.mvLoc = glGetUniformLocation(userData.programObject, "um4_MVMatrix");
    userData.lightPosLoc = glGetUniformLocation(userData.programObject, "uv3_LightPos");
 
-   userData.numIndices = esGenSphere(60, 0.5f, &userData.vertices,
+   userData.numIndices = esGenSphere(60, 0.3f, &userData.vertices,
                                         &userData.normals, NULL, &userData.indices);
 }
 
 void Sphere::drawFrame(ESMatrix* perspective, float x, float y, float z) {
 	// Stretch the data to the scale of the gui
-	positionX = x * 1.0f;
-	positionY = y * 1.0f;
-	positionZ = z - 2.0f;
+	positionX = x * 4.0f - 2.0f;
+	positionY = -(y * 4.0f - 2.0f);
+	positionZ = -2.0f;
 	drawFrame(perspective);
 }
+
 void Sphere::drawFrame(ESMatrix* perspective) {
-   GLfloat vColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+   GLfloat vColor[] = { 5.0f, 0.0f, 0.0f, 1.0f };
    GLfloat vLightPos[] = { 0.0f, 0.0f, 2.3f };
 
 	ESMatrix modelview;

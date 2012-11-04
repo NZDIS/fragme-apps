@@ -5,13 +5,10 @@
 #include "esUtil.h"
 #include "Origin.h"
 #include "Sphere.h"
-#include "Terrain.h"
 
 
-//Terrain *terrain;
 Origin origin;
 Sphere sphere;
-Terrain terrain;
 
 ESMatrix perspective;
 float aspect;
@@ -21,17 +18,15 @@ JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myCleanup
 {
 	origin.cleanup();
 	sphere.cleanup();
-	terrain.cleanup();
 }
 
 JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myDrawFrame
   (JNIEnv *env, jclass c, jfloat x, jfloat y, jfloat z)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	sphere.drawFrame(&perspective, x, y, z);
 	origin.drawFrame(&perspective);
-	terrain.drawFrame(&perspective);
 }
 
 
@@ -50,13 +45,10 @@ JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_mySurfaceChanged
 
 	origin.init(width, height);
 	sphere.init(width, height);
-	terrain.init(width, height);
 }
 
 
 JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_mySurfaceCreated
 (JNIEnv *e, jclass c)
 {
-	//origin = new Origin();
-	//terrain = new Terrain(); // FIXME: clean up the memory when the surface is discarded
 }

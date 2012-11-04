@@ -17,7 +17,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -45,7 +44,7 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
         // Setup android 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		// Setup FragMe
@@ -61,8 +60,8 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 		// Setup Player
 		myPlayer = new Player();
 		myPlayer.setAcceleration(0,  0,  0);
-		myPlayer.fmPlayer.positionX = 0.0f;
-		myPlayer.fmPlayer.positionY = 0.0f;
+		myPlayer.fmPlayer.positionX = 0.5f;
+		myPlayer.fmPlayer.positionY = 0.5f;
 		myPlayer.fmPlayer.positionZ = -2.0f;
 		
 		// Thread to update this player's position (based on accelerometer data)
@@ -121,7 +120,7 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 	public void onSensorChanged(SensorEvent event) {
 		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			//Log.i("FragTheBall", "updated acceleration: " + event.values[0] + "," + event.values[1] + "," + event.values[2]);
-			myPlayer.setAcceleration(event.values[0],  event.values[1],  event.values[2]);
+			myPlayer.setAcceleration(-event.values[0],  event.values[1],  event.values[2]);
 		}
 	}
 	
