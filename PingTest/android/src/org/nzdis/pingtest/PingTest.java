@@ -46,7 +46,7 @@ public class PingTest extends Thread implements ChangeObserver {
 		}
 		println("Using address: " + address);
 		
-		String peerName = String.format("testDesktop%d", rng.nextInt(1000));
+		String peerName = String.format("testAndroid%d", rng.nextInt(1000));
 	
 		// Setup FragMe
 		ControlCenter.setUpConnectionsWithHelper("testGroupPingTest", peerName, address, new StartupWaitForObjects(1));
@@ -61,6 +61,14 @@ public class PingTest extends Thread implements ChangeObserver {
 			startTimer();
 		} else {
         	// We are not the first, so find the ping packet that has already been created
+			while(ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).isEmpty()) {
+				System.out.println("Waiting for first object to be received");
+	        	try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			println("Using existing ping packet");
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
 			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
@@ -68,17 +76,14 @@ public class PingTest extends Thread implements ChangeObserver {
 			pingPacket.changed(pingPacket);
 			startTimer();
 		}
-		
-		//println("Finished startup, running");
-
 	}
 
 	public void startTimer() {
 		int lastCounter = pingPacket.getCounter();
 		long lastTime = System.nanoTime();
 		
-		int runs=0;
-		while(runs<55) {
+		int runs = 0;
+		while(runs < 55) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

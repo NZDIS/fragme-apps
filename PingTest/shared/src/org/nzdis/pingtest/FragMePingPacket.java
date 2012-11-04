@@ -32,33 +32,15 @@ public class FragMePingPacket extends FMeObject {
 	}
 	
 	public FragMePingPacket() {
-		//this.register(this);
 	}
 
 	@Override
 	public void deserialize(FMeObject serObject) {
-		/*if (isNew) {
-			isNew = false;
-			hasChanged = true;
-		} else {
-			hasChanged = false;
-		}
-		if (((FragMePingPacket) serObject).getCounter() != this.counter) {*/
-			this.counter = ((FragMePingPacket) serObject).getCounter();
-		/*	hasChanged = true;
-		}*/
+		this.counter = ((FragMePingPacket) serObject).getCounter();
 	}
 
 	@Override
 	public void changed(FMeObject object) {
-		/*if (!hasChanged) {
-			return;
-		}
-		if (counter == PingPacketHistory.previousCounter + 1) {
-			counter = counter + 1;
-			PingPacketHistory.previousCounter = counter;
-			change();
-		}*/
 	}
 
 	@Override
