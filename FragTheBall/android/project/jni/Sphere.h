@@ -19,10 +19,11 @@ public:
 
 	virtual void init(float width, float height);
 	virtual void drawFrame(ESMatrix *);
-	virtual void drawFrame(ESMatrix *, float x, float y, float z);
+	virtual void drawFrame(ESMatrix *, float x, float y, float z, bool myself);
 
 private:
 	float positionX, positionY, positionZ;
+	bool myself;
 };
 
 #endif /* SPHERE_H_ */

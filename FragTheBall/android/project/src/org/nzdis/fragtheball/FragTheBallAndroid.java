@@ -62,7 +62,7 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 		myPlayer.setAcceleration(0,  0,  0);
 		myPlayer.fmPlayer.positionX = 0.5f;
 		myPlayer.fmPlayer.positionY = 0.5f;
-		myPlayer.fmPlayer.positionZ = -2.0f;
+		myPlayer.fmPlayer.positionZ = 0.0f;
 		
 		// Thread to update this player's position (based on accelerometer data)
 		updaterThread = new UpdaterThread(this);

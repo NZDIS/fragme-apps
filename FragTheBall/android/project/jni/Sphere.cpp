@@ -20,6 +20,7 @@ Sphere::Sphere() : Drawable() {
 	positionX = 0.5f;
 	positionY = 0.5f;
 	positionZ = 0.0f;
+	myself = false;
 }
 
 Sphere::~Sphere() {
@@ -99,20 +100,22 @@ void Sphere::init(float width, float height)
    userData.mvLoc = glGetUniformLocation(userData.programObject, "um4_MVMatrix");
    userData.lightPosLoc = glGetUniformLocation(userData.programObject, "uv3_LightPos");
 
-   userData.numIndices = esGenSphere(60, 0.3f, &userData.vertices,
+   userData.numIndices = esGenSphere(60, 0.2f, &userData.vertices,
                                         &userData.normals, NULL, &userData.indices);
 }
 
-void Sphere::drawFrame(ESMatrix* perspective, float x, float y, float z) {
+void Sphere::drawFrame(ESMatrix* perspective, float x, float y, float z, bool m) {
 	// Stretch the data to the scale of the gui
 	positionX = x * 4.0f - 2.0f;
 	positionY = -(y * 4.0f - 2.0f);
 	positionZ = -2.0f;
+	myself = m;
 	drawFrame(perspective);
 }
 
 void Sphere::drawFrame(ESMatrix* perspective) {
-   GLfloat vColor[] = { 5.0f, 0.0f, 0.0f, 1.0f };
+   GLfloat vMyColor[] = { 0.0f, 0.0f, 5.0f, 1.0f };
+   GLfloat vOtherColor[] = { 5.0f, 0.0f, 0.0f, 1.0f };
    GLfloat vLightPos[] = { 0.0f, 0.0f, 2.3f };
 
 	ESMatrix modelview;
@@ -140,7 +143,11 @@ void Sphere::drawFrame(ESMatrix* perspective) {
    glEnableVertexAttribArray(userData.normalsLoc);
 
    // load color
-   glUniform4fv(userData.colorLoc, 1, (GLfloat *) vColor);
+   if (myself) {
+	   glUniform4fv(userData.colorLoc, 1, (GLfloat *) vMyColor);
+   } else {
+	   glUniform4fv(userData.colorLoc, 1, (GLfloat *) vOtherColor);
+   }
    glUniform3fv(userData.lightPosLoc, 1, (GLfloat*) vLightPos);
    // Load the MVP matrix
    glUniformMatrix4fv(userData.mvpLoc, 1, GL_FALSE,

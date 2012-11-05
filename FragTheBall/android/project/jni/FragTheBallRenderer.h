@@ -21,7 +21,15 @@ JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myCleanup
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myDrawFrame
-  (JNIEnv *, jclass, jfloat x, jfloat y, jfloat z);
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     org_nzdis_fragtheball_GLESView
+ * Method:    myDrawFrame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myDrawSphere
+  (JNIEnv *, jclass, jfloat x, jfloat y, jfloat z, jboolean myself);
 
 /*
  * Class:     org_nzdis_fragtheball_GLESView

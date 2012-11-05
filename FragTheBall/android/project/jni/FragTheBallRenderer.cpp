@@ -21,12 +21,18 @@ JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myCleanup
 }
 
 JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myDrawFrame
-  (JNIEnv *env, jclass c, jfloat x, jfloat y, jfloat z)
+  (JNIEnv *env, jclass c)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-	sphere.drawFrame(&perspective, x, y, z);
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	origin.drawFrame(&perspective);
+}
+
+
+JNIEXPORT void JNICALL Java_org_nzdis_fragtheball_GLESView_myDrawSphere
+  (JNIEnv *env, jclass c, jfloat x, jfloat y, jfloat z, jboolean myself)
+{
+	sphere.drawFrame(&perspective, x, y, z, myself);
 }
 
 

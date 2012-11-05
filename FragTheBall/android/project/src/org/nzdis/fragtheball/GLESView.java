@@ -2,11 +2,15 @@ package org.nzdis.fragtheball;
 
 
 
+import java.util.Vector;
+
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import org.nzdis.fragme.ControlCenter;
 
 
 
@@ -30,7 +34,8 @@ public class GLESView extends GLSurfaceView {
 	}
 
 	public static native void myCleanup();
-	public static native void myDrawFrame(float x, float y, float z);
+	public static native void myDrawFrame();
+	public static native void myDrawSphere(float x, float y, float z, boolean m);
 	public static native void mySurfaceChanged(int width, int height);
 	public static native void mySurfaceCreated();
 	
@@ -47,7 +52,15 @@ public class GLESView extends GLSurfaceView {
 		@Override
 		public void onDrawFrame(GL10 unused) {
 			// Render all balls
-			myDrawFrame(app.myPlayer.getFMPlayer().positionX, app.myPlayer.getFMPlayer().positionY, app.myPlayer.getFMPlayer().positionZ);
+			myDrawFrame();
+			myDrawSphere(app.myPlayer.getFMPlayer().positionX, app.myPlayer.getFMPlayer().positionY, app.myPlayer.getFMPlayer().positionZ, true);
+			Vector<FragMePlayer> v = ControlCenter.getAllObjects(FragMePlayer.class);
+			for (int i = 0; i < v.size(); i++) {
+				FragMePlayer fmp = v.elementAt(i);
+				if (fmp != app.myPlayer.getFMPlayer()) {
+					myDrawSphere(fmp.positionX, fmp.positionY, fmp.positionZ, false);
+				}
+			}
 		}
 
 		@Override

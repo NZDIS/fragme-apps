@@ -25,8 +25,6 @@ Origin::~Origin() {
 }
 
 
-float changingColour = 0.5f;
-
 ///
 // Initialize the shader and program object
 //
@@ -71,24 +69,26 @@ void Origin::init(float width, float height)
 
 void Origin::drawFrame(ESMatrix *perspective) {
 	ESMatrix modelview;
-	changingColour += 0.01f;
-	if (changingColour > 0.9f) changingColour = 0.25f;
 	GLfloat vVertices[] = {
-			0.0f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.0f,
-			0.0f, 0.0f,	0.0f,
-			0.0f, 0.5f, 0.0f,
-			0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.5f
+			-2.2f, -2.2f, -2.0f,
+			-2.2f,  2.2f, -2.0f,
+			-2.2f,  2.2f, -2.0f,
+			 2.2f,  2.2f, -2.0f,
+			 2.2f,  2.2f, -2.0f,
+			 2.2f, -2.2f, -2.0f,
+			 2.2f, -2.2f, -2.0f,
+			-2.2f, -2.2f, -2.0f
 	};
 
 	GLfloat vColors[] = {
-			changingColour, 0.0f, 0.0f, 1.0f,
-			changingColour, 0.0f, 0.0f, 1.0f,
-			0.0f, changingColour, 0.0f, 1.0f,
-			0.0f, changingColour, 0.0f, 1.0f,
-			changingColour, changingColour, 0.0f, 1.0f,
-			changingColour, changingColour, 0.0f, 1.0f
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
 	};
 
 	// Generate a model view matrix to rotate/translate the cube
@@ -114,6 +114,6 @@ void Origin::drawFrame(ESMatrix *perspective) {
 	glUniformMatrix4fv(userData.mvpLoc, 1, GL_FALSE,
 						(GLfloat*) &userData.mvpMatrix.m[0][0]);
 
-	glDrawArrays(GL_LINES, 0, 6);
+	glDrawArrays(GL_LINES, 0, 8);
 }
 
