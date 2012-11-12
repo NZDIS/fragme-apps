@@ -53,9 +53,9 @@
 			<location>C:/Users/ndlewis/Documents/GitHub/fragme/src</location>
 		</link>
 		<link>
-			<name>jgroups</name>
+			<name>jgroups3</name>
 			<type>2</type>
-			<location>C:/Users/ndlewis/Documents/GitHub/jgroups/src</location>
+			<location>C:/Users/ndlewis/Documents/GitHub/jgroups3/src</location>
 		</link>
 		<link>
 			<name>shared</name>

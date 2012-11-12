@@ -24,6 +24,10 @@ import android.view.WindowManager;
 
 public class FragTheBallAndroid extends Activity implements SensorEventListener {
 
+	private AppThread appThread;
+	
+	private static Context context;
+
 	private GLESView surfaceView;
 	
 	private PowerManager.WakeLock wl = null;
@@ -33,9 +37,8 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 
 	public Player myPlayer;
 	Random rng = new Random();
-	public boolean isRunning = true;
+	public boolean isRunning = false;
 	
-	UpdaterThread updaterThread;
 	public int updatesPerSecond = 30;
 
     // Program startup
@@ -47,31 +50,13 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
     	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		// Setup FragMe
-		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
-		if (address == null) {
-			System.err.println("Could not find a local ip address");
-			return;
-		}
-		System.out.println("Using address: " + address);
-		String peerName = String.format("Android%d", rng.nextInt(1000));
-		ControlCenter.setUpConnectionsWithHelper("FragTheBall", peerName, address, new StartupWaitForObjects(1));
-
-		// Setup Player
-		myPlayer = new Player();
-		myPlayer.setAcceleration(0,  0,  0);
-		myPlayer.fmPlayer.positionX = 0.5f;
-		myPlayer.fmPlayer.positionY = 0.5f;
-		myPlayer.fmPlayer.positionZ = 0.0f;
-		
-		// Thread to update this player's position (based on accelerometer data)
-		updaterThread = new UpdaterThread(this);
-		updaterThread.start();
-		
+		appThread = new AppThread();
+		appThread.start();
+    	
 		// Setup sensors (activate later - onResume)
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-    	
+		
         // Setup view (activate later - onResume)
     	surfaceView = new GLESView(this);
     	setContentView(surfaceView);
@@ -80,11 +65,23 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
     	PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
     	wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "TerrainExample");
     }
+    
+    public static Context getAppContext() {
+        return FragTheBallAndroid.context;
+    }
 
     // Resume after lock screen or background
   	@Override
   	protected void onResume() {
     	super.onResume();
+    	
+    	try {
+    		while (!isRunning) {
+    			Thread.sleep(100);
+    		}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     	
     	// Activate sensors
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
@@ -124,21 +121,37 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 		}
 	}
 	
-    class UpdaterThread extends Thread {
-    	FragTheBallAndroid app;
-		public UpdaterThread(FragTheBallAndroid app) {
-			this.app = app;
-		}
+    class AppThread extends Thread {
 		public void run() {
-			while(app.isRunning) {
-				app.myPlayer.update();
+			// Setup FragMe
+			String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
+			if (address == null) {
+				System.err.println("Could not find a local ip address");
+				return;
+			}
+			System.out.println("Using address: " + address);
+			String peerName = String.format("Android%d", rng.nextInt(1000));
+			ControlCenter.setUpConnectionsWithHelper("FragTheBall", peerName, address, new StartupWaitForObjects(1));
+
+			// Setup Player
+			myPlayer = new Player();
+			myPlayer.setAcceleration(0,  0,  0);
+			myPlayer.fmPlayer.positionX = 0.5f;
+			myPlayer.fmPlayer.positionY = 0.5f;
+			myPlayer.fmPlayer.positionZ = 0.0f;
+			
+			isRunning = true;
+			while(isRunning) {
+				myPlayer.update();
 				//Log.i("FragTheBall", "updated position: " + app.myPlayer.fmPlayer.positionX + "," + app.myPlayer.fmPlayer.positionY + "," + app.myPlayer.fmPlayer.positionZ);
 	        	try {
-					Thread.sleep(1000/app.updatesPerSecond);
+					Thread.sleep(1000/updatesPerSecond);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+
 	}
+
 }

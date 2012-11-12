@@ -31,8 +31,8 @@ public class Player {
 	protected static float zMinDoubled = zMin * 2.0f;
 	protected static float gravity = 9.8f;
 	
-	protected static float accelerationFactor = 1.5f;
-	protected static float frictionFactor = 0.6f;
+	protected static float accelerationFactor = 0.03f;
+	protected static float frictionFactor = 0.01f;
 	protected static float gravityFactor = 0.0f;
 	protected static float bounceFactor = 0.7f;
 	
