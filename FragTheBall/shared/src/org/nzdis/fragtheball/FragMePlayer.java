@@ -12,7 +12,7 @@ public class FragMePlayer extends FMeObject {
 	
 	protected float positionX = 0.5f;
 	protected float positionY = 0.5f;
-	protected float positionZ = -2.0f;
+	protected float positionZ = 0.0f;
 	protected float orientation = 0.0f;
 	protected float health = 0.0f;
 	protected float energy = 0.0f;

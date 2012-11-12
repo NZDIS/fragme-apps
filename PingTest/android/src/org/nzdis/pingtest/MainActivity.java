@@ -1,6 +1,5 @@
 package org.nzdis.pingtest;
 
-//import android.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,13 +45,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-    
-    public void asdf() {
-		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-			System.out.println(ste.toString());
-		}
-    }
-    
     
     @Override
     protected void onDestroy() {

@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/editRunTimeSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="Run Time (Seconds)"
+        android:inputType="number"
+        android:text="1" >
+
+        <requestFocus />
+    </EditText>
+ 
+    <Button
+        android:id="@+id/buttonJavaAccelerometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/editRunTimeSeconds"
+        android:text="Java Accelerometer" />
+
+    <Button
+        android:id="@+id/buttonCAccelerometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonJavaAccelerometer"
+        android:text="C Accelerometer" />
+
+    <Button
+        android:id="@+id/buttonJavaGyroscope"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonCAccelerometer"
+        android:text="Java Gyroscope" />
+
+    <Button
+        android:id="@+id/buttonCGyroscope"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonJavaGyroscope"
+        android:text="C Gyroscope" />
+
+    <Button
+        android:id="@+id/buttonJavaMagneticField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonCGyroscope"
+        android:text="Java Magnetic Field" />
+
+    <Button
+        android:id="@+id/buttonCMagneticField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonJavaMagneticField"
+        android:text="C Magnetic Field" />
+
+    <Button
+        android:id="@+id/buttonJavaThreeSensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonCMagneticField"
+        android:text="Java Three Sensors" />
+
+    <Button
+        android:id="@+id/buttonCThreeSensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonJavaThreeSensors"
+        android:text="C Three Sensors" />
+    
+</RelativeLayout>

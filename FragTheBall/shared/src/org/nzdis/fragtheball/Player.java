@@ -23,7 +23,7 @@ public class Player {
 	protected static float yMax = 1.0f;
 	protected static float xMin = 0.0f;
 	protected static float yMin = 0.0f;
-	protected static float zMin = -2.0f;
+	protected static float zMin = 0.0f;
 	protected static float xMaxDoubled = xMax * 2.0f;
 	protected static float yMaxDoubled = yMax * 2.0f;
 	protected static float xMinDoubled = xMin * 2.0f;
@@ -31,10 +31,10 @@ public class Player {
 	protected static float zMinDoubled = zMin * 2.0f;
 	protected static float gravity = 9.8f;
 	
-	// Scale the effect of acceleration (bigger numbers slow things down faster)
-	protected static float accelerationFactor = 0.01f;
+	protected static float accelerationFactor = 0.03f;
 	protected static float frictionFactor = 0.01f;
 	protected static float gravityFactor = 0.0f;
+	protected static float bounceFactor = 0.7f;
 	
 	protected boolean isActive = false;
 	protected long lastUpdateTime;
@@ -108,32 +108,32 @@ public class Player {
 		//
 		if (fmPlayer.positionX < xMin) {
 			fmPlayer.positionX = xMinDoubled - fmPlayer.positionX;
-			velocityX = -velocityX;
+			velocityX = -velocityX * bounceFactor;
 			// !!! Reverse the direction of acceleration, for the desktop model without input 
 			//accelerationX = -accelerationX;
 		}
 		if (fmPlayer.positionX > xMax) {
 			fmPlayer.positionX = xMaxDoubled - fmPlayer.positionX;
-			velocityX = -velocityX;
+			velocityX = -velocityX * bounceFactor;
 			// !!! Reverse the direction of acceleration, for the desktop model without input 
 			//accelerationX = -accelerationX;
 		}
 		if (fmPlayer.positionY < yMin) {
 			fmPlayer.positionY = yMinDoubled - fmPlayer.positionY;
-			velocityY = -velocityY;
+			velocityY = -velocityY * bounceFactor;
 			// !!! Reverse the direction of acceleration, for the desktop model without input 
 			//accelerationY = -accelerationY;
 		}
 		if (fmPlayer.positionY > yMax) {
 			fmPlayer.positionY = yMaxDoubled - fmPlayer.positionY;
-			velocityY = -velocityY;
+			velocityY = -velocityY * bounceFactor;
 			// !!! Reverse the direction of acceleration, for the desktop model without input 
 			//accelerationY = -accelerationY;
 		}
 
 		if (fmPlayer.positionZ < zMin) {
 			fmPlayer.positionZ = zMinDoubled - fmPlayer.positionZ;
-			velocityZ = -velocityZ;
+			velocityZ = -velocityZ * bounceFactor;
 		}
 
 		//System.out.printf("%f %f %f\n", fmplayer.positionX, fmplayer.positionY, fmplayer.positionZ);
