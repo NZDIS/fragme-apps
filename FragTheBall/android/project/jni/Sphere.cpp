@@ -100,7 +100,7 @@ void Sphere::init(float width, float height)
    userData.mvLoc = glGetUniformLocation(userData.programObject, "um4_MVMatrix");
    userData.lightPosLoc = glGetUniformLocation(userData.programObject, "uv3_LightPos");
 
-   userData.numIndices = esGenSphere(60, 0.2f, &userData.vertices,
+   userData.numIndices = esGenSphere(30, 0.2f, &userData.vertices,
                                         &userData.normals, NULL, &userData.indices);
 }
 

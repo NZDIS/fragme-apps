@@ -2,6 +2,7 @@ package org.nzdis.fragtheball;
 
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.nzdis.fragme.ControlCenter;
@@ -36,6 +37,7 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
     private Sensor accelerometer;
 
 	public Player myPlayer;
+	public ArrayList<Player>myPlayers = new ArrayList<Player>();
 	Random rng = new Random();
 	public boolean isRunning = false;
 	
@@ -131,7 +133,7 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 			}
 			System.out.println("Using address: " + address);
 			String peerName = String.format("Android%d", rng.nextInt(1000));
-			ControlCenter.setUpConnectionsWithHelper("FragTheBall", peerName, address, new StartupWaitForObjects(1));
+			ControlCenter.setUpConnections("FragTheBall", peerName, address);
 
 			// Setup Player
 			myPlayer = new Player();
@@ -140,9 +142,18 @@ public class FragTheBallAndroid extends Activity implements SensorEventListener 
 			myPlayer.fmPlayer.positionY = 0.5f;
 			myPlayer.fmPlayer.positionZ = 0.0f;
 			
+			int numExtraBalls = 0;
+			for (int i = 0; i < numExtraBalls; i++) {
+				myPlayers.add(new Player());
+			}
+			
 			isRunning = true;
 			while(isRunning) {
 				myPlayer.update();
+				for (int i = 0; i < numExtraBalls; i++) {
+					myPlayers.get(i).randomiseAcceleration();
+					myPlayers.get(i).update();
+				}
 				//Log.i("FragTheBall", "updated position: " + app.myPlayer.fmPlayer.positionX + "," + app.myPlayer.fmPlayer.positionY + "," + app.myPlayer.fmPlayer.positionZ);
 	        	try {
 					Thread.sleep(1000/updatesPerSecond);

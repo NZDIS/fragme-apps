@@ -20,7 +20,7 @@ public class FragTheBallDesktop {
 	// Parameters
 	private boolean guiIsEnabled = true;
 	private int updatesPerSecond = 30;
-	private int secondsPerRandomise = 20;
+	private int secondsPerRandomise = 2;
 	
 	// GUI
 	private JFrame frame = new JFrame();
@@ -67,11 +67,19 @@ public class FragTheBallDesktop {
 			guiIsEnabled = false;
 		}*/
 		
+		int c = secondsPerRandomise*updatesPerSecond;
+
 		if (guiIsEnabled) {
 			// Setup GUI
 			buildTheGUI();
 
 			while(isRunning) {
+				c--;
+				if (c < 0) {
+					player.randomiseAcceleration();
+					c = secondsPerRandomise*updatesPerSecond;
+				}
+				
 			    // Update myself
 				player.update();
 
@@ -86,10 +94,14 @@ public class FragTheBallDesktop {
 			}
 		} else {
 			// Console only - automate randomisation every few seconds
-			int c = secondsPerRandomise*updatesPerSecond;
 			
 			while(isRunning) {
 				c--;
+				if (c < 0) {
+					player.randomiseAcceleration();
+					c = secondsPerRandomise*updatesPerSecond;
+				}
+				
 			    // Update myself
 				if (ControlCenter.getNoOfPeers() > 0) {
 					if (player.fmPlayer.getOwnerAddr().equals(ControlCenter.getMyAddress())) {
@@ -106,11 +118,6 @@ public class FragTheBallDesktop {
 				}
 				player.update();
 
-				if (c < 0) {
-					player.randomiseAcceleration();
-					c = secondsPerRandomise*updatesPerSecond;
-				}
-				
 	        	try {
 					Thread.sleep(1000/updatesPerSecond);
 				} catch (InterruptedException e) {
