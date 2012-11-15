@@ -2,7 +2,6 @@ package org.nzdis.pingtest;
 
 import java.util.Random;
 
-import org.jgroups.log.Trace;
 import org.nzdis.fragme.ControlCenter;
 import org.nzdis.fragme.helpers.StartupWaitForObjects;
 import org.nzdis.fragme.objects.ChangeObserver;
@@ -36,8 +35,6 @@ public class PingTest extends Thread implements ChangeObserver {
 	
 	public void run() {
 		println("Starting...");
-		
-		Trace.trace = false;
 		
 		String address = NetworkUtils.getNonLoopBackAddressByProtocol(NetworkUtils.IPV4);
 		if (address == null) {
@@ -73,7 +70,7 @@ public class PingTest extends Thread implements ChangeObserver {
 			pingPacket = (FragMePingPacket)ControlCenter.getObjectManager().getAllObjects(FragMePingPacket.class).firstElement();
 			PingPacketHistory.previousCounter = pingPacket.getCounter() - 1;
 			pingPacket.register(this);
-			pingPacket.changed(pingPacket);
+			this.changed(pingPacket);
 			startTimer();
 		}
 	}

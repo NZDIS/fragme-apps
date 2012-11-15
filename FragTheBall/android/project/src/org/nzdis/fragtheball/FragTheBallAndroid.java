@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.nzdis.fragme.ControlCenter;
-import org.nzdis.fragme.helpers.StartupWaitForObjects;
 import org.nzdis.fragme.util.NetworkUtils;
 
 import android.os.Bundle;
