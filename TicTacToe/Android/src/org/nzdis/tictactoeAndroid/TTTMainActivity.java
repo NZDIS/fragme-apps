@@ -7,6 +7,7 @@ import org.nzdis.fragme.helpers.StartupWaitForObjects;
 import org.nzdis.fragme.objects.ChangeObserver;
 import org.nzdis.fragme.objects.FMeObject;
 import org.nzdis.fragme.util.NetworkUtils;
+import org.nzdis.tictactoe.TicTacToeModel;
 
 
 import android.net.wifi.WifiManager;
