@@ -1,11 +1,11 @@
 package org.nzdis.tictactoeAndroid;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
 import org.nzdis.fragme.ControlCenter;
 import org.nzdis.fragme.helpers.StartupWaitForObjects;
+import org.nzdis.fragme.objects.ChangeObserver;
+import org.nzdis.fragme.objects.FMeObject;
 import org.nzdis.fragme.util.NetworkUtils;
 
 
@@ -25,7 +25,7 @@ import android.widget.Toast;
 /*
  * TicTacToe game interface
  */
-public class TTTMainActivity extends Activity implements Observer{
+public class TTTMainActivity extends Activity implements ChangeObserver {
 	
 	private TextView player;
 	private Button restart;
@@ -118,8 +118,8 @@ public class TTTMainActivity extends Activity implements Observer{
 			player.setText("Player2 (X)");
 		}
 
-		tModel.addObserver(this);
-		this.update(tModel, null);
+		tModel.register(this);
+		this.changed(tModel);
 
 	}
     
@@ -173,7 +173,7 @@ public class TTTMainActivity extends Activity implements Observer{
 		tModel.setNew_game(true);
 		tModel.restart();
 		tModel.change();
-		this.update(tModel, null);
+		this.changed(tModel);
 	}
     
     //method for process handler
@@ -203,13 +203,13 @@ public class TTTMainActivity extends Activity implements Observer{
     		Log.e("Tictactoe","Illegal move!");
     		
     	}
-    	this.update(tModel, null);
+    	this.changed(tModel);
     }
     
    //implement update method of Observer interface
-	public void update(Observable arg0, Object arg1) {
+	public void changed(FMeObject object) {
 		
-		final TicTacToeModel tttm=(TicTacToeModel)arg0;
+		final TicTacToeModel tttm=(TicTacToeModel)object;
 		hdlr.post(new Runnable() {
 			public void run(){
 		updateInterface(tttm);}
@@ -257,4 +257,19 @@ public class TTTMainActivity extends Activity implements Observer{
 		}
 		Toast.makeText(this, "Activity destroied",	Toast.LENGTH_LONG).show();
     }
+
+	@Override
+	public void delegatedOwnership(FMeObject object) {
+	}
+
+	@Override
+	public void deleted(FMeObject object) {
+		
+		final TicTacToeModel tttm=(TicTacToeModel)object;
+		hdlr.post(new Runnable() {
+			public void run(){
+		updateInterface(tttm);}
+		});
+	
+	}
 }

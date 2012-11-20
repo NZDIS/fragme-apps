@@ -1,0 +1,8 @@
+assets/
+bin/
+gen/
+obj/
+Debug/
+.settings/
+.classpath
+.project

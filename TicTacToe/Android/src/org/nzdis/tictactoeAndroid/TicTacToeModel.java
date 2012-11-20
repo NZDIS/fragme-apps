@@ -123,16 +123,16 @@ public class TicTacToeModel extends FMeObject {
 		lastMove = "";
 	}
 
-	public void changedObject() {
+	public void changed(FMeObject object) {
 		//System.out.println("Received a change notification!");
-		this.setChanged();
-		this.notifyObservers();
 	}
 
-	public void deletedObject() {
+	public void delegatedOwnership(FMeObject object) {
+		//System.out.println("Received a delegate ownership notification!");
+	}
+
+	public void deleted(FMeObject object) {
 		//System.out.println("Received a delete notification!");
-		this.setChanged();
-		this.notifyObservers();
 	}
 
 	public void deserialize(FMeObject serObject) {
