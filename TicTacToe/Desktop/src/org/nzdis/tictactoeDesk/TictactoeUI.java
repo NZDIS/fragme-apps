@@ -9,19 +9,20 @@ import java.awt.Label;
 import java.awt.Panel;
 import java.awt.Rectangle;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 import org.nzdis.fragme.ControlCenter;
 import org.nzdis.fragme.helpers.StartupWaitForObjects;
+import org.nzdis.fragme.objects.ChangeObserver;
+import org.nzdis.fragme.objects.FMeObject;
 import org.nzdis.fragme.util.NetworkUtils;
-import org.nzdis.tictactoeDesk.TicTacToeModel;
+import org.nzdis.tictactoe.TicTacToeModel;
 
 /**
  *  TicTacToe game interface
  *
  */
-public class TictactoeUI extends Frame implements Observer {
+public class TictactoeUI extends Frame implements ChangeObserver {
+	private static final long serialVersionUID = 1056856746477996581L;
 
 	private TicTacToeModel tModel;
 	private int player;
@@ -78,8 +79,8 @@ public class TictactoeUI extends Frame implements Observer {
 			System.out.println("I am player 2 (X).");
 			lblPlayer.setText("Player 2 (X)");
 		}
-		this.tModel.addObserver(this);
-		this.update(tModel, null);
+		this.tModel.register(this);
+		this.update(tModel);
 	}
 
 	/**
@@ -312,11 +313,24 @@ public class TictactoeUI extends Frame implements Observer {
 			System.out.println("Illegal move!");
 			
 		}
-		this.update(tModel, null);
+		this.update(tModel);
 	}
 
-	//implement update method of Observer interface
-	public void update(Observable arg0, Object arg1) {
+	@Override
+	public void changed(FMeObject object) {
+		this.update(object);
+	}
+
+	@Override
+	public void delegatedOwnership(FMeObject object) {
+	}
+
+	@Override
+	public void deleted(FMeObject object) {
+		this.update(object);
+	}
+
+	public void update(FMeObject object) {
 		String[] positions = tModel.getPositions();
 		if (tModel.isNew_game()) {
 			lblWinMsg.setText("");
@@ -371,7 +385,7 @@ public class TictactoeUI extends Frame implements Observer {
 		tModel.setNew_game(true);
 		tModel.restart();
 		tModel.change();
-		this.update(tModel, null);
+		this.update(tModel);
 	}
 
 	

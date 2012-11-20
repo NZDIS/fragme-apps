@@ -1,4 +1,4 @@
-package org.nzdis.tictactoeDesk;
+package org.nzdis.tictactoe;
 
 import org.nzdis.fragme.factory.FactoryObject;
 import org.nzdis.fragme.factory.FragMeFactory;
@@ -123,16 +123,18 @@ public class TicTacToeModel extends FMeObject {
 		lastMove = "";
 	}
 
-	public void changedObject() {
+	@Override
+	public void changed(FMeObject object) {
 		//System.out.println("Received a change notification!");
-		this.setChanged();
-		this.notifyObservers();
 	}
 
-	public void deletedObject() {
+	@Override
+	public void delegatedOwnership(FMeObject object) {
+	}
+
+	@Override
+	public void deleted(FMeObject object) {
 		//System.out.println("Received a delete notification!");
-		this.setChanged();
-		this.notifyObservers();
 	}
 
 	public void deserialize(FMeObject serObject) {
@@ -173,4 +175,5 @@ public class TicTacToeModel extends FMeObject {
 	public void setNew_game(boolean new_game) {
 		this.new_game = new_game;
 	}
+
 }
