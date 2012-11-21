@@ -137,6 +137,7 @@ public class TicTacToeModel extends FMeObject {
 		//System.out.println("Received a delete notification!");
 	}
 
+	@Override
 	public void deserialize(FMeObject serObject) {
 		this.positions = ((TicTacToeModel) serObject).getPositions();
 		this.lastMove = ((TicTacToeModel) serObject).getLastMove();

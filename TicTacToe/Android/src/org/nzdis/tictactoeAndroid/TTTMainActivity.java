@@ -207,16 +207,28 @@ public class TTTMainActivity extends Activity implements ChangeObserver {
     	this.changed(tModel);
     }
     
-   //implement update method of Observer interface
+	@Override
 	public void changed(FMeObject object) {
-		
+		this.updated(object);
+	}
+	
+	@Override
+	public void delegatedOwnership(FMeObject object) {
+	}
+
+	@Override
+	public void deleted(FMeObject object) {
+		this.updated(object);
+	}
+	
+    public void updated(FMeObject object) {
 		final TicTacToeModel tttm=(TicTacToeModel)object;
 		hdlr.post(new Runnable() {
 			public void run(){
 		updateInterface(tttm);}
 		});
+    }
 	
-	}
 	//update interface
 	private void updateInterface(TicTacToeModel model){
 		String[] positions=model.getPositions();
@@ -259,18 +271,4 @@ public class TTTMainActivity extends Activity implements ChangeObserver {
 		Toast.makeText(this, "Activity destroied",	Toast.LENGTH_LONG).show();
     }
 
-	@Override
-	public void delegatedOwnership(FMeObject object) {
-	}
-
-	@Override
-	public void deleted(FMeObject object) {
-		
-		final TicTacToeModel tttm=(TicTacToeModel)object;
-		hdlr.post(new Runnable() {
-			public void run(){
-		updateInterface(tttm);}
-		});
-	
-	}
 }
