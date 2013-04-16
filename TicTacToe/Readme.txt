@@ -4,7 +4,7 @@ Basic setup description for the Eclipse IDE are provide in the following.
 
 This application requires both 'fragme' and 'jgroups3' in order to run. 
 
-The relevant repositories comply with the following general structure: 
+All relevant repositories comply with the following general structure: 
 
 <Repository name>
 - src (Source files of repository)
@@ -15,9 +15,9 @@ However, this structure varies if a desktop and mobile version are involved:
 <Repository name>
 - desktop
   -- src (Source files for desktop version of application/framework)
-  -- test (Source files for mobile version of application/framework)
+  -- test (Test files for desktop version)
 - android (folder for Android version)
-  -- src (Source files for mobile version)
+  -- src (Source files for mobile version of application/framework)
   -- res (Resources files for the Android project)
   - AndroidManifest.xml (Android manifest for application)
 - shared
